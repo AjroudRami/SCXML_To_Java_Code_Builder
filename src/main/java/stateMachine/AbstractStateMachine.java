@@ -1,6 +1,7 @@
 package stateMachine;
 
 import java.io.Serializable;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,41 +10,46 @@ import java.util.List;
  */
 public abstract class AbstractStateMachine implements Serializable {
 
-    private List<Transition> transitionList;
-    private List<State> stateList;
-    private State initState;
-    private State currentState;
+    protected List<State> stateList;
+    protected State initState;
+    protected State currentState;
 
     public AbstractStateMachine(){
-        this.transitionList = new ArrayList<Transition>();
         this.stateList = new ArrayList<State>();
     }
 
-    protected void linkStates(){
-        for(Transition transition : transitionList){
-            for(State state : stateList){
-                if(initState == null && state.isInit()){
-                    this.initState = state;
-                }
-                if(state.getId().equals(transition.from().getId())){
-                    state.addTransition(transition);
-                    transition.setFrom(state);
-                }
-                if(state.getId().equals(transition.to().getId())){
-                    transition.setTo(state);
-                }
-            }
-        }
-        if(initState == null && stateList.size() != 0){
+    protected void init(){
+        if(initState == null && stateList.size() != 0) {
             initState = stateList.get(0);
         }
-    }
-
-    protected void init(){
         this.currentState = initState;
     }
 
-    protected void notifyEvent(String event){
+    public void notifyEvent(String event){
         this.currentState = this.currentState.notifyEvent(event);
+    }
+
+    public void connectToEvent(String eventName, Object object, Method method){
+        for(State state : stateList){
+            if(state.hasSentEvent(eventName)){
+                state.connectToEvent(eventName, object, method);
+            }
+        }
+    }
+
+    public void connectToEvent(String eventName, Object object, Method method, Object[] args){
+        for(State state : stateList){
+            if(state.hasSentEvent(eventName)){
+                state.connectToEvent(eventName, object, method, args);
+            }
+        }
+    }
+
+    public void connectToEvent(String eventName, Callable callable){
+        for(State state : stateList){
+            if(state.hasSentEvent(eventName)){
+                state.connectToEvent(eventName, callable);
+            }
+        }
     }
 }

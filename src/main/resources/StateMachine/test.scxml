@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scxml xmlns="http://www.w3.org/2005/07/scxml" version="1.0" binding="early" xmlns:qt="http://www.qt.io/2015/02/scxml-ext" name="test" qt:editorversion="4.2.1" initial="State_3">
+    <qt:editorinfo initialGeometry="827.96;295.41;-20;-20;40;40"/>
+    <state id="State_2">
+        <qt:editorinfo scenegeometry="492.69;539.72;347.69;489.72;205;135" geometry="492.69;539.72;-145;-50;205;135"/>
+        <transition type="external" event="Transition_6" target="State_3">
+            <qt:editorinfo endTargetFactors="8.66;40.31"/>
+        </transition>
+        <transition type="external" event="Transition_8" target="State_3">
+            <qt:editorinfo endTargetFactors="10.17;21.80"/>
+            <send event="sendE kln"/>
+        </transition>
+    </state>
+    <state id="State_3">
+        <qt:editorinfo scenegeometry="827.96;483.49;767.96;433.49;120;100" geometry="827.96;483.49;-60;-50;120;100"/>
+        <transition type="external" event="Transition_7" target="State_2">
+            <qt:editorinfo endTargetFactors="84.57;76.43"/>
+        </transition>
+    </state>
+</scxml>

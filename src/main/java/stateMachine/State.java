@@ -1,6 +1,7 @@
 package stateMachine;
 
 import java.io.Serializable;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,37 +12,24 @@ public class State implements Serializable {
     private String id;
     private boolean isInit;
     private List<Transition> transitions;
-    private List<Callable> onEntry;
-    private List<Callable> onExit;
-    private boolean init;
+    private List<Event> onEntry;
+    private List<Event> onExit;
 
     State(){
         this.id = "";
         this.isInit = false;
         this.transitions = new ArrayList<Transition>();
-        this.onEntry = new ArrayList<Callable>();
-        this.onExit = new ArrayList<Callable>();
+        this.onEntry = new ArrayList<Event>();
+        this.onExit = new ArrayList<Event>();
     }
 
-    State(String id,boolean isInit, List<Transition> transitions, List<Callable> onEntry, List<Callable> onExit){
-        this.id = id;
-        this.isInit = isInit;
-        this.transitions = transitions;
-        this.onEntry = onEntry;
-        this.onExit = onExit;
-    }
-
-    State(String id){
+    public State(String id){
         this();
         this.id = id;
     }
 
     public String getId() {
         return id;
-    }
-
-    public void addTransition(Transition transition) {
-        this.transitions.add(transition);
     }
 
     public boolean isInit() {
@@ -52,6 +40,7 @@ public class State implements Serializable {
         for(Transition t : transitions){
             if(t.raisedFor(event)){
                 this.exit();
+                t.trigger();
                 t.to().enter();
                 return t.to();
             }
@@ -59,12 +48,54 @@ public class State implements Serializable {
         return this;
     }
 
-    //TODO
     private void enter() {
+        for(Event e: onEntry){
+            e.trigger();
+        }
+        System.out.println("enter state " + this.id);
+    }
+
+    private void exit(){
+        for(Event e: onExit){
+            e.trigger();
+        }
+        System.out.println("exit state " + this.id);
+    }
+
+    public State setId(String id){
+        this.id = id;
+        return this;
+    }
+
+    public State setIsInit(boolean isInit){
+        this.isInit = isInit;
+        return this;
+    }
+
+    public State addTransition(Transition transition){
+        this.transitions.add(transition);
+        return this;
+    }
+
+    public State addOnEntry(Event e){
+        this.onEntry.add(e);
+        return this;
+    }
+
+    public State addOnExit(Event e){
+        this.onExit.add(e);
+        return this;
     }
 
     //TODO
-    private void exit(){
+    public void connectToEvent(String eventName, Object object, Method method){}
 
-    }
+    //TODO
+    public void connectToEvent(String eventName, Object object, Method method, Object[] args){}
+
+    //TODO
+    public void connectToEvent(String eventName, Callable callable){}
+
+    //TODO
+    public boolean hasSentEvent(String name){return false;}
 }
