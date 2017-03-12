@@ -83,7 +83,7 @@ public class Transition implements Serializable{
     public void connectToEvent(String eventName, Object object, Method method) {
         for(Event e : sentEvents){
             if(e.getName().equals(eventName)){
-                e.addCallable(new Caller(object, method));
+                e.addCallable(new Caller(object, method, 0));
             }
         }
     }
@@ -91,7 +91,7 @@ public class Transition implements Serializable{
     public void connectToEvent(String eventName, Object object, Method method, Object[] args){
         for(Event e : sentEvents){
             if(e.getName().equals(eventName)){
-                e.addCallable(new Caller(object, method, args));
+                e.addCallable(new Caller(object, method, args, 0));
             }
         }
     }

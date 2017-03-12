@@ -99,7 +99,9 @@ public class SCXMLToJava {
                 Element element = (Element)tNode;
                 if(element.getTagName().equals("send")) {
                     String eventName = element.getAttribute("event");
-                    result += ".add"+ methSuffix +"(new Event(\"" + eventName + "\").addCallable(new EventSender(\""+ eventName+"\", this)))";
+                    String delay = element.getAttribute("delay");
+                    delay = (delay=="")?"0":delay;
+                    result += ".add"+ methSuffix +"(new Event(\"" + eventName + "\").addCallable(new EventSender(\""+ eventName+"\", this,"+delay+")))";
                 }
             }
         }
@@ -136,7 +138,9 @@ public class SCXMLToJava {
                 Element element = (Element)tNode;
                 if(element.getTagName().equals("send")) {
                     String eventName = element.getAttribute("event");
-                    result += ".addTriggeredEvent(new Event(\"" + eventName + "\").addCallable(new EventSender(\""+ eventName+"\", this)))";
+                    String delay = element.getAttribute("delay");
+                    delay = (delay=="")?"0":delay;
+                    result += ".addTriggeredEvent(new Event(\"" + eventName + "\").addCallable(new EventSender(\""+ eventName+"\", this,"+delay+")))";
                 }
             }
         }
