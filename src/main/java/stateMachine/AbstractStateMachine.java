@@ -52,4 +52,16 @@ public abstract class AbstractStateMachine implements Serializable {
             }
         }
     }
+
+    public void linkStates(){
+        for(State state: this.stateList){
+            for(Transition transition : state.getTransitions()){
+                for(State state1 : this.stateList){
+                    if(transition.to().getId().equals(state1.getId())){
+                        transition.setTo(state1);
+                    }
+                }
+            }
+        }
+    }
 }

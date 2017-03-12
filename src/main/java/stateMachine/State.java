@@ -98,4 +98,8 @@ public class State implements Serializable {
 
     //TODO
     public boolean hasSentEvent(String name){return false;}
+
+    public List<Transition> getTransitions() {
+        return this.transitions;
+    }
 }

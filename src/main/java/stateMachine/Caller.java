@@ -13,7 +13,6 @@ public class Caller implements Callable {
     Object[] args;
 
     public Caller(){
-
     }
 
     public Caller(Object calledObject, Method calledMethod){
