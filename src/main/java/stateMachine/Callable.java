@@ -7,4 +7,5 @@ import java.io.Serializable;
  */
 public interface Callable extends Serializable {
     public void call();
+    public int getDelay();
 }

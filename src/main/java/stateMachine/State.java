@@ -88,16 +88,80 @@ public class State implements Serializable {
     }
 
     //TODO
-    public void connectToEvent(String eventName, Object object, Method method){}
+    public void connectToEvent(String eventName, Object object, Method method){
+        for(Event e : onEntry){
+            if(e.getName().equals(eventName)){
+                int delay = e.getDelay();
+                e.addCallable(new Caller(object, method, delay));
+            }
+        }
+        for(Event e : onExit){
+            if(e.getName().equals(eventName)){
+                int delay = e.getDelay();
+                e.addCallable(new Caller(object, method, delay));
+            }
+        }
+        for(Transition t : this.getTransitions()){
+            t.connectToEvent(eventName, object, method);
+        }
+    }
 
     //TODO
-    public void connectToEvent(String eventName, Object object, Method method, Object[] args){}
+    public void connectToEvent(String eventName, Object object, Method method, Object[] args){
+        for(Event e : onEntry){
+            if(e.getName().equals(eventName)){
+                int delay = e.getDelay();
+                e.addCallable(new Caller(object, method, args, delay));
+            }
+        }
+        for(Event e : onExit){
+            if(e.getName().equals(eventName)){
+                int delay = e.getDelay();
+                e.addCallable(new Caller(object, method, args, delay));
+            }
+        }
+        for(Transition t : this.getTransitions()){
+            t.connectToEvent(eventName, object, method, args);
+        }}
 
     //TODO
-    public void connectToEvent(String eventName, Callable callable){}
+    public void connectToEvent(String eventName, Callable callable){
+        for(Event e : onEntry){
+            if(e.getName().equals(eventName)){
+                int delay = e.getDelay();
+                e.addCallable(callable);
+            }
+        }
+        for(Event e : onExit){
+            if(e.getName().equals(eventName)){
+                int delay = e.getDelay();
+                e.addCallable(callable);
+            }
+        }
+        for(Transition t : this.getTransitions()){
+            t.connectToEvent(eventName, callable);
+        }
+    }
 
     //TODO
-    public boolean hasSentEvent(String name){return false;}
+    public boolean hasSentEvent(String name) {
+        for (Event e : onEntry) {
+            if (e.getName().equals(name)) {
+                return true;
+            }
+        }
+        for (Event e : onExit) {
+            if (e.getName().equals(name)) {
+                return true;
+            }
+        }
+        for (Transition t : this.getTransitions()) {
+            if (t.hasSentEvent(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public List<Transition> getTransitions() {
         return this.transitions;

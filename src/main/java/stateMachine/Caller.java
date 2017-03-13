@@ -51,4 +51,8 @@ public class Caller implements Callable {
             }
         }).start();
     }
+
+    public int getDelay(){
+        return this.delay;
+    }
 }

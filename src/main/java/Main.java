@@ -12,7 +12,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
 
-        SCXMLToJava builder = new SCXMLToJava(new File("C:\\Users\\Rami\\Documents\\fsmv2\\test.scxml"));
+        SCXMLToJava builder = new SCXMLToJava(new File("src\\main\\resources\\test.scxml"));
         builder.generateJavaCode();
     }
 }

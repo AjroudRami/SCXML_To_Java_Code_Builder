@@ -30,4 +30,12 @@ public class Event implements Serializable {
         this.callables.add(c);
         return this;
     }
+
+    public int getDelay(){
+        int delay = 0;
+        for(Callable c : this.callables){
+            return c.getDelay();
+        }
+        return delay;
+    }
 }
