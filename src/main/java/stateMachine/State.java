@@ -15,7 +15,7 @@ public class State implements Serializable {
     private List<Event> onEntry;
     private List<Event> onExit;
 
-    State(){
+    public State(){
         this.id = "";
         this.isInit = false;
         this.transitions = new ArrayList<Transition>();

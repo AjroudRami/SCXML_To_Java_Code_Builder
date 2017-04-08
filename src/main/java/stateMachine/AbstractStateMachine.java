@@ -13,9 +13,23 @@ public abstract class AbstractStateMachine implements Serializable {
     protected List<State> stateList;
     protected State initState;
     protected State currentState;
+    protected EventHandler eventHandler;
 
     public AbstractStateMachine(){
+        this.eventHandler = new EventHandler(this);
         this.stateList = new ArrayList<State>();
+    }
+
+    public List<State> getStateList(){
+        return this.stateList;
+    }
+
+    public State getInitState(){
+        return this.initState;
+    }
+
+    public State getCurrentState(){
+        return this.currentState;
     }
 
     protected void init(){
@@ -23,6 +37,15 @@ public abstract class AbstractStateMachine implements Serializable {
             initState = stateList.get(0);
         }
         this.currentState = initState;
+    }
+
+    public void start(){
+        Thread t = new Thread(eventHandler);
+        t.start();
+    }
+
+    public void stop(){
+        eventHandler.stop();
     }
 
     public void notifyEvent(String event){
@@ -56,6 +79,7 @@ public abstract class AbstractStateMachine implements Serializable {
     public void linkStates(){
         for(State state: this.stateList){
             for(Transition transition : state.getTransitions()){
+                transition.setFrom(state);
                 for(State state1 : this.stateList){
                     if(transition.to().getId().equals(state1.getId())){
                         transition.setTo(state1);

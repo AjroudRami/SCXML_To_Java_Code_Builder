@@ -1,0 +1,8 @@
+<scxml version="1.0" xmlns="http://www.w3.org/2005/07/scxml">
+	<state id="State1">
+		<transition event="event1" target="State2" type="external"/>
+	</state>
+	<state id="State2">
+		<transition event="event2" target="State1" type="external"/>
+	</state>
+</scxml>

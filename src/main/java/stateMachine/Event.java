@@ -10,6 +10,9 @@ import java.util.List;
 public class Event implements Serializable {
     private String name;
     private List<Callable> callables;
+    private Type type;
+
+    public enum Type {SEND, RAISE}
 
     public Event(String name){
         this.name = name;
@@ -37,5 +40,9 @@ public class Event implements Serializable {
             return c.getDelay();
         }
         return delay;
+    }
+
+    public Type getType(){
+        return this.type;
     }
 }
