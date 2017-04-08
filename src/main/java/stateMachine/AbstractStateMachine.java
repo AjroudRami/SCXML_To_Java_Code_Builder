@@ -48,8 +48,8 @@ public abstract class AbstractStateMachine implements Serializable {
         eventHandler.stop();
     }
 
-    public void notifyEvent(String event){
-        this.currentState = this.currentState.notifyEvent(event);
+    public void notifyEvent(Event e){
+        this.eventHandler.notifyEvent(e);
     }
 
     public void connectToEvent(String eventName, Object object, Method method){

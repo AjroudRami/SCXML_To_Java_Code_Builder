@@ -50,4 +50,8 @@ public class EventHandler implements Runnable {
         }
         return null;
     }
+
+    public void notifyEvent(Event e) {
+        this.eventsStack.add(e);
+    }
 }

@@ -45,4 +45,9 @@ public class Event implements Serializable {
     public Type getType(){
         return this.type;
     }
+
+    public Event setType(Type t){
+        this.type = t;
+        return this;
+    }
 }

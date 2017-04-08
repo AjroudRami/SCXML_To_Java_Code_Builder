@@ -1,3 +1,4 @@
+import stateMachine.Event;
 import stateMachine.MyStateMachine;
 
 import java.util.Scanner;
@@ -13,7 +14,7 @@ public class Main2 {
         String input = "";
         while(!input.equals("exit")){
             input = sc.nextLine();
-            ms.notifyEvent(input);
+            ms.notifyEvent(new Event(input).setType(Event.Type.SEND));
         }
     }
 }

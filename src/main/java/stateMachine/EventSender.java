@@ -7,10 +7,10 @@ public class EventSender extends Caller {
 
     public EventSender(String event, AbstractStateMachine stateMachine, int delay){
         super.calledObject = stateMachine;
-        super.args = new String[] {event};
+        super.args = new Event[] {new Event(event).setType(Event.Type.SEND) };
         super.delay = delay;
         try {
-            super.calledMethod = super.calledObject.getClass().getMethod("notifyEvent", String.class);
+            super.calledMethod = super.calledObject.getClass().getMethod("notifyEvent", Event.class);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
