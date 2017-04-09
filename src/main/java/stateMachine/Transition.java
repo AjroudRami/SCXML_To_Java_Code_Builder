@@ -66,6 +66,7 @@ public class Transition implements Serializable{
     }
 
     public void trigger(){
+        System.out.println("Triggering transition");
         for(int i=0; i<sentEvents.size(); i++){
             sentEvents.get(i).trigger();
         }

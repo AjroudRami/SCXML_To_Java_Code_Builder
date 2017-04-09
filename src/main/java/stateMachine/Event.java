@@ -16,6 +16,7 @@ public class Event implements Serializable {
 
     public Event(String name){
         this.name = name;
+        this.type = Type.SEND;
         this.callables = new ArrayList<Callable>();
     }
 

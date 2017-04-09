@@ -88,4 +88,8 @@ public abstract class AbstractStateMachine implements Serializable {
             }
         }
     }
+
+    public void triggerEvent(String name) {
+        this.currentState = this.currentState.notifyEvent(name);
+    }
 }

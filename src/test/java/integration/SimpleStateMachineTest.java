@@ -3,10 +3,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.xml.sax.SAXException;
-import stateMachine.AbstractStateMachine;
-import stateMachine.GStateMachine;
-import stateMachine.SCXMLToJava;
-import stateMachine.State;
+import stateMachine.*;
 
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
@@ -95,12 +92,32 @@ public class SimpleStateMachineTest {
     @Test
     public void testTransition(){
         List<State> states =  this.stateMachine.getStateList();
-        System.out.println(states.get(0).getTransitions().get(0));
         assertEquals(states.get(0).getTransitions().get(0).from(), states.get(0));
         assertEquals(states.get(0).getTransitions().get(0).to(), states.get(1));
 
         assertEquals(states.get(1).getTransitions().get(0).from(), states.get(1));
         assertEquals(states.get(1).getTransitions().get(0).to(), states.get(0));
 
+    }
+
+    @Test
+    public void testSendingEvent(){
+        this.stateMachine.start();
+        this.stateMachine.notifyEvent(new Event("event1"));
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        assertEquals("State2", this.stateMachine.getCurrentState().getId());
+
+        this.stateMachine.start();
+        this.stateMachine.notifyEvent(new Event("event2"));
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        assertEquals("State1", this.stateMachine.getCurrentState().getId());
     }
 }
