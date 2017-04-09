@@ -23,7 +23,7 @@ public class EventHandler implements Runnable {
         while(run){
             Event e = getNextEvent();
             if(e != null){
-                e.trigger();
+                stateMachine.getCurrentState().notifyEvent(e.getName());
             }
         }
     }
@@ -37,7 +37,6 @@ public class EventHandler implements Runnable {
     }
 
     private Event getNextEvent(){
-        Event e = null;
         for(int i = 0; i<eventsStack.size(); i++){
             if(eventsStack.get(i).getType().equals(Event.Type.SEND)){
                 return eventsStack.remove(i);
