@@ -51,6 +51,7 @@ public class EventHandler implements Runnable {
     }
 
     public void notifyEvent(Event e) {
+        System.out.println("adding event " + e.getName());
         this.eventsStack.add(e);
     }
 }

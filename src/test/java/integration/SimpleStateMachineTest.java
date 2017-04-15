@@ -1,5 +1,5 @@
 package integration;
-import org.junit.Before;
+import generator.SCXMLToJava;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.xml.sax.SAXException;
@@ -20,59 +20,30 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by Rami on 08/04/2017.
  */
-public class SimpleStateMachineTest {
-
-    static String ressourceDir = "src\\main\\resources\\";
-    static String integrationTestDir = "integrationTests\\";
-    static AbstractStateMachine stateMachine;
+public class SimpleStateMachineTest  extends TestEnv{
 
     @BeforeClass
-    public static void prepareEnv(){
-        File scxml = new File(ressourceDir + integrationTestDir +"test1.scxml");
-        try {
-            SCXMLToJava builder = new SCXMLToJava(scxml);
-            builder.generateJavaCode();
-            File javaCode = builder.getJavaCodeFile();
-            File root = javaCode.getAbsoluteFile().getParentFile();
-            System.out.println(root);
-            JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-            compiler.run(null, System.out, System.err, javaCode.getPath());
-            URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{root.toURI().toURL()});
-            Class<?> cls = Class.forName("GStateMachine", true, classLoader);
-            stateMachine = (AbstractStateMachine) cls.newInstance();
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+    public static void prep(){
+        prepareEnv("test1.scxml");
     }
-
 
     @Test
     public void testInitState(){
         //Test if the proper state has been set to initial (State1 without prior indication)
-        assertEquals(this.stateMachine.getInitState().getId(), "State1");
+        assertEquals(super.stateMachine.getInitState().getId(), "State1");
 
         //Test if initial state is current state if we do not start the machine
-        assertEquals(this.stateMachine.getInitState(), this.stateMachine.getCurrentState());
+        assertEquals(super.stateMachine.getInitState(), super.stateMachine.getCurrentState());
     }
 
     @Test
     public void testNbOfStates(){
-        assertEquals(this.stateMachine.getStateList().size(), 2);
+        assertEquals(super.stateMachine.getStateList().size(), 2);
     }
 
     @Test
     public void testStatesNames(){
-        List<State> states =  this.stateMachine.getStateList();
+        List<State> states =  super.stateMachine.getStateList();
         List<State> expected = new ArrayList<State>();
         expected.add(new State("State1"));
         expected.add(new State("State2"));
@@ -83,7 +54,7 @@ public class SimpleStateMachineTest {
 
     @Test
     public void testNBOfTransitions(){
-        List<State> states =  this.stateMachine.getStateList();
+        List<State> states =  super.stateMachine.getStateList();
         for(State state: states){
             assertEquals(state.getTransitions().size(), 1);
         }
@@ -91,7 +62,7 @@ public class SimpleStateMachineTest {
 
     @Test
     public void testTransition(){
-        List<State> states =  this.stateMachine.getStateList();
+        List<State> states =  super.stateMachine.getStateList();
         assertEquals(states.get(0).getTransitions().get(0).from(), states.get(0));
         assertEquals(states.get(0).getTransitions().get(0).to(), states.get(1));
 
@@ -102,22 +73,22 @@ public class SimpleStateMachineTest {
 
     @Test
     public void testSendingEvent(){
-        this.stateMachine.start();
-        this.stateMachine.notifyEvent(new Event("event1"));
+        super.stateMachine.start();
+        super.stateMachine.notifyEvent(new Event("event1"));
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        assertEquals("State2", this.stateMachine.getCurrentState().getId());
+        assertEquals("State2", super.stateMachine.getCurrentState().getId());
 
-        this.stateMachine.start();
-        this.stateMachine.notifyEvent(new Event("event2"));
+        super.stateMachine.start();
+        super.stateMachine.notifyEvent(new Event("event2"));
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        assertEquals("State1", this.stateMachine.getCurrentState().getId());
+        assertEquals("State1", super.stateMachine.getCurrentState().getId());
     }
 }

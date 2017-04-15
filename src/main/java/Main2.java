@@ -14,7 +14,7 @@ public class Main2 {
         String input = "";
         while(!input.equals("exit")){
             input = sc.nextLine();
-            ms.notifyEvent(new Event(input).setType(Event.Type.SEND));
+            //ms.notifyEvent(new Event(input).setType(Event.Type.SEND));
         }
     }
 }

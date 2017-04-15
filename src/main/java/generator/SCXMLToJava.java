@@ -1,4 +1,4 @@
-package stateMachine;
+package generator;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
@@ -25,6 +25,7 @@ public class SCXMLToJava {
     private final String constructorHeader="public GStateMachine()" + openInst + "\n";
     private final String fileName = "GStateMachine.java";
     private String javaCode;
+    private File outputFile;
 
     private Document doc;
 
@@ -35,10 +36,15 @@ public class SCXMLToJava {
         this.doc.getDocumentElement().normalize();
     }
 
-    public void generateJavaCode() throws IOException {
+    public void generateJavaCode(File output) throws IOException {
+        String path = output.getAbsolutePath();
+        this.outputFile = new File(path + "\\" + this.fileName);
+        if(outputFile.exists()){
+            outputFile.delete();
+        }
         String constructorBody = parseScxml(this.doc);
         this.javaCode = packageHeader + messageHeader + classNameHeader + constructorHeader + constructorBody + closeInst + closeInst;
-        Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(this.fileName), "utf-8"));
+        Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile), "utf-8"));
         writer.write(this.javaCode);
         writer.flush();
         writer.close();
@@ -160,6 +166,6 @@ public class SCXMLToJava {
     }
 
     public File getJavaCodeFile(){
-        return new File(this.fileName);
+        return this.outputFile;
     }
 }

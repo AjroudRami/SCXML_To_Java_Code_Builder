@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by Rami on 08/03/2017.
  */
-public abstract class AbstractStateMachine implements Serializable {
+public abstract class AbstractStateMachine implements StateMachine {
 
     protected List<State> stateList;
     protected State initState;
@@ -52,6 +52,8 @@ public abstract class AbstractStateMachine implements Serializable {
         this.eventHandler.notifyEvent(e);
     }
 
+    public void notifyEvent(String event){this.eventHandler.notifyEvent(new Event(event));}
+
     public void connectToEvent(String eventName, Object object, Method method){
         for(State state : stateList){
             if(state.hasSentEvent(eventName)){
@@ -89,7 +91,7 @@ public abstract class AbstractStateMachine implements Serializable {
         }
     }
 
-    public void triggerEvent(String name) {
+    protected void triggerEvent(String name) {
         this.currentState = this.currentState.notifyEvent(name);
     }
 }
