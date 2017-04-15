@@ -23,6 +23,7 @@ public class EventHandler implements Runnable {
         while(run){
             Event e = getNextEvent();
             if(e != null){
+                System.out.println("Sending event " + e.getName());
                 stateMachine.triggerEvent(e.getName());
             }
         }

@@ -9,10 +9,15 @@ import java.util.List;
  * Created by Rami on 08/03/2017.
  */
 public class State implements Serializable {
+
+    //event name
     private String id;
+    // is the state an initial state
     private boolean isInit;
     private List<Transition> transitions;
+    //Events triggered on entry
     private List<Event> onEntry;
+    //Event triggered on exit
     private List<Event> onExit;
 
     public State(){
@@ -48,6 +53,9 @@ public class State implements Serializable {
         return this;
     }
 
+    /**
+     * This method is called when entering the state and triggers all the event that need to be triggered at this point
+     */
     private void enter() {
         for(Event e: onEntry){
             e.trigger();
@@ -55,6 +63,9 @@ public class State implements Serializable {
         System.out.println("enter state " + this.id);
     }
 
+    /**
+     * This method is called when exiting the state and triggers all the event that need to be triggered at this point
+     */
     private void exit(){
         for(Event e: onExit){
             e.trigger();
@@ -87,7 +98,7 @@ public class State implements Serializable {
         return this;
     }
 
-    //TODO
+
     public void connectToEvent(String eventName, Object object, Method method){
         for(Event e : onEntry){
             if(e.getName().equals(eventName)){
@@ -106,7 +117,6 @@ public class State implements Serializable {
         }
     }
 
-    //TODO
     public void connectToEvent(String eventName, Object object, Method method, Object[] args){
         for(Event e : onEntry){
             if(e.getName().equals(eventName)){
@@ -124,7 +134,6 @@ public class State implements Serializable {
             t.connectToEvent(eventName, object, method, args);
         }}
 
-    //TODO
     public void connectToEvent(String eventName, Callable callable){
         for(Event e : onEntry){
             if(e.getName().equals(eventName)){
@@ -143,7 +152,6 @@ public class State implements Serializable {
         }
     }
 
-    //TODO
     public boolean hasSentEvent(String name) {
         for (Event e : onEntry) {
             if (e.getName().equals(name)) {

@@ -17,8 +17,7 @@ public class TemporisedStateMachineTest extends TestEnv {
     }
     @Test
     public void testTemporisedTransition(){
-        double startTime = System.currentTimeMillis();
-        double currentTime = System.currentTimeMillis();
+
         super.stateMachine.start();
         super.stateMachine.notifyEvent("event1");
         try {
@@ -27,10 +26,10 @@ public class TemporisedStateMachineTest extends TestEnv {
             e.printStackTrace();
         }
         assertEquals("State2", super.stateMachine.getCurrentState().getId());
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        double currentTime = System.currentTimeMillis();
+        double startTime = System.currentTimeMillis();
+        while( currentTime - startTime < 1200){
+            currentTime = System.currentTimeMillis();
         }
         assertEquals("State1", super.stateMachine.getCurrentState().getId());
 

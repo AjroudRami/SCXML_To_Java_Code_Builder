@@ -1,0 +1,21 @@
+<scxml version="1.0" xmlns="http://www.w3.org/2005/07/scxml">
+	<state id="standby">
+		<transition event="someone" target="opening" type="external">
+		    <send event="open"/>
+		</transition>
+	</state>
+	<state id="opening">
+		<transition event="opened" target="waiting" type="external"/>
+	</state>
+    <state id="waiting">
+        <onentry>
+            <send event="endWaiting" delay="1000"/>
+        </onentry>
+        <transition event="endWaiting" target="closing" type="external">
+            <send event="close"/>
+        </transition>
+    </state>
+	<state id="closing">
+	    <transition event="closed" target="standby" type="external"/>
+	</state>
+</scxml>

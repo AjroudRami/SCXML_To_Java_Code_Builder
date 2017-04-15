@@ -12,10 +12,11 @@ public class Transition implements Serializable{
 
 
     protected enum Type{
-        Internal, External;
+        Internal, External
     }
 
     private List<String> events;
+    //Not used variable, improvement for 2.0
     private List<Guard> guards;
     private List<Event> sentEvents;
     private State to;
@@ -84,7 +85,8 @@ public class Transition implements Serializable{
     public void connectToEvent(String eventName, Object object, Method method) {
         for(Event e : sentEvents){
             if(e.getName().equals(eventName)){
-                e.addCallable(new Caller(object, method, 0));
+                int delay = e.getDelay();
+                e.addCallable(new Caller(object, method, delay));
             }
         }
     }
@@ -92,7 +94,8 @@ public class Transition implements Serializable{
     public void connectToEvent(String eventName, Object object, Method method, Object[] args){
         for(Event e : sentEvents){
             if(e.getName().equals(eventName)){
-                e.addCallable(new Caller(object, method, args, 0));
+                int delay = e.getDelay();
+                e.addCallable(new Caller(object, method, args, delay));
             }
         }
     }

@@ -1,6 +1,4 @@
-import stateMachine.Event;
-import stateMachine.MyStateMachine;
-
+import stateMachine.AbstractStateMachine;
 import java.util.Scanner;
 
 /**
@@ -9,7 +7,7 @@ import java.util.Scanner;
 public class Main2 {
 
     public static void main(String[] args){
-        MyStateMachine ms = new MyStateMachine();
+        AbstractStateMachine st;
         Scanner sc = new Scanner(System.in);
         String input = "";
         while(!input.equals("exit")){

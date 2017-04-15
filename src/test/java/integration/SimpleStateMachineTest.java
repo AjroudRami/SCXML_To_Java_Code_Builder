@@ -1,17 +1,9 @@
 package integration;
-import generator.SCXMLToJava;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.xml.sax.SAXException;
-import stateMachine.*;
+import stateMachine.Event;
+import stateMachine.State;
 
-import javax.tools.JavaCompiler;
-import javax.tools.ToolProvider;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 
