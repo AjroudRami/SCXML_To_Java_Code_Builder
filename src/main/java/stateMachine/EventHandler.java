@@ -21,11 +21,16 @@ public class EventHandler implements Runnable {
     public void run() {
         start();
         while(run){
-            Event e = getNextEvent();
-            if(e != null){
-                System.out.println("Sending event " + e.getName());
-                stateMachine.triggerEvent(e.getName());
+            try{
+                Event e = getNextEvent();
+                if(e != null){
+                    System.out.println("Sending event " + e.getName());
+                    stateMachine.triggerEvent(e.getName());
+                }
+            }catch(Exception e){
+                System.err.println(e.getMessage());
             }
+
         }
     }
 
@@ -38,15 +43,23 @@ public class EventHandler implements Runnable {
     }
 
     private Event getNextEvent(){
+        try {
         for(int i = 0; i<eventsStack.size(); i++){
             if(eventsStack.get(i).getType().equals(Event.Type.SEND)){
                 return eventsStack.remove(i);
             }
         }
-        for(int i = 0; i<eventsStack.size(); i++){
-            if(eventsStack.get(i).getType().equals(Event.Type.RAISE)){
-                return eventsStack.remove(i);
+        }catch (java.lang.NullPointerException e){
+            System.err.println(e.getMessage());
+        }
+        try {
+            for (int i = 0; i < eventsStack.size(); i++) {
+                if (eventsStack.get(i).getType().equals(Event.Type.RAISE)) {
+                    return eventsStack.remove(i);
+                }
             }
+        }catch (java.lang.NullPointerException e){
+            System.err.println(e.getMessage());
         }
         return null;
     }

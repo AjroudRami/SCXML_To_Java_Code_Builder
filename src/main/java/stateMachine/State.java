@@ -58,6 +58,7 @@ public class State implements Serializable {
      */
     private void enter() {
         for(Event e: onEntry){
+            System.out.println("ONENTRY: " + e.getName());
             e.trigger();
         }
         System.out.println("enter state " + this.id);
