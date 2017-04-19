@@ -42,7 +42,7 @@ public class EventHandler implements Runnable {
         this.run = true;
     }
 
-    private Event getNextEvent(){
+    private synchronized Event getNextEvent(){
         try {
         for(int i = 0; i<eventsStack.size(); i++){
             if(eventsStack.get(i).getType().equals(Event.Type.SEND)){
@@ -64,7 +64,7 @@ public class EventHandler implements Runnable {
         return null;
     }
 
-    public void notifyEvent(Event e) {
+    public synchronized void notifyEvent(Event e) {
         System.out.println("adding event " + e.getName());
         this.eventsStack.add(e);
     }
